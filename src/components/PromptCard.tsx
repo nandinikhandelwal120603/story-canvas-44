@@ -51,8 +51,8 @@ export const PromptCard = ({ prompt, onSwipeLeft, onSwipeRight, style }: PromptC
           <h2 className="text-white font-semibold text-xl">{prompt.title}</h2>
           
           <div className="flex flex-wrap gap-2">
-            <span className="aurora-pill aurora-pill-purple">{prompt.category}</span>
-            <span className="aurora-pill aurora-pill-cyan">{prompt.mood}</span>
+            <span className="aurora-pill aurora-pill-cyan">{prompt.category}</span>
+            <span className="aurora-pill aurora-pill-green">{prompt.mood}</span>
           </div>
 
           <div className="flex flex-wrap gap-1.5">

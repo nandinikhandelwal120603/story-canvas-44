@@ -7,17 +7,25 @@ import { useNavigate } from 'react-router-dom';
 
 export const PromptDiscovery = () => {
   const {
-    allPrompts,
     currentSwipeIndex,
     addToSelected,
     incrementSwipeIndex,
+    selectedCategory,
+    getFilteredPrompts,
   } = useStorylineStore();
 
   const navigate = useNavigate();
 
-  const currentPrompt = allPrompts[currentSwipeIndex];
-  const nextPrompt = allPrompts[currentSwipeIndex + 1];
-  const hasMorePrompts = currentSwipeIndex < allPrompts.length;
+  // Redirect if no category selected
+  if (!selectedCategory) {
+    navigate('/');
+    return null;
+  }
+
+  const filteredPrompts = getFilteredPrompts();
+  const currentPrompt = filteredPrompts[currentSwipeIndex];
+  const nextPrompt = filteredPrompts[currentSwipeIndex + 1];
+  const hasMorePrompts = currentSwipeIndex < filteredPrompts.length;
 
   const handleSwipeLeft = () => {
     incrementSwipeIndex();
@@ -38,15 +46,27 @@ export const PromptDiscovery = () => {
         animate={{ opacity: 1, y: 0 }}
         className="absolute top-8 left-0 right-0 flex justify-between items-center px-8"
       >
-        <h1 className="text-white font-bold">Prompt Storyliner</h1>
-        <Button
-          onClick={() => navigate('/builder')}
-          className="glass-panel hover:bg-white/10 transition-all"
-          variant="ghost"
-        >
-          <Layers className="mr-2 h-5 w-5" />
-          Storyline Builder
-        </Button>
+        <div>
+          <h1 className="text-white font-bold">Prompt Storyliner</h1>
+          <p className="text-white/60 text-sm">{selectedCategory}</p>
+        </div>
+        <div className="flex gap-3">
+          <Button
+            onClick={() => navigate('/')}
+            className="glass-panel hover:bg-white/20 transition-all"
+            variant="ghost"
+          >
+            Change Category
+          </Button>
+          <Button
+            onClick={() => navigate('/builder')}
+            className="glass-panel hover:bg-white/20 transition-all"
+            variant="ghost"
+          >
+            <Layers className="mr-2 h-5 w-5" />
+            Builder
+          </Button>
+        </div>
       </motion.div>
 
       {/* Card Stack */}
@@ -136,7 +156,7 @@ export const PromptDiscovery = () => {
         transition={{ delay: 0.3 }}
         className="absolute bottom-8 text-white/60 text-sm"
       >
-        {currentSwipeIndex} / {allPrompts.length}
+        {currentSwipeIndex} / {filteredPrompts.length}
       </motion.div>
     </div>
   );

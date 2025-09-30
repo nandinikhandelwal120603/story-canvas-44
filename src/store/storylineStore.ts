@@ -17,8 +17,10 @@ interface StorylineStore {
   selectedPrompts: Prompt[];
   storylineSequence: Prompt[];
   currentSwipeIndex: number;
+  selectedCategory: string | null;
   
   setAllPrompts: (prompts: Prompt[]) => void;
+  setSelectedCategory: (category: string | null) => void;
   addToSelected: (prompt: Prompt) => void;
   removeFromSelected: (promptId: string) => void;
   addToSequence: (prompt: Prompt) => void;
@@ -27,6 +29,7 @@ interface StorylineStore {
   incrementSwipeIndex: () => void;
   resetSwipeIndex: () => void;
   exportToJSON: () => void;
+  getFilteredPrompts: () => Prompt[];
 }
 
 export const useStorylineStore = create<StorylineStore>((set, get) => ({
@@ -34,8 +37,11 @@ export const useStorylineStore = create<StorylineStore>((set, get) => ({
   selectedPrompts: [],
   storylineSequence: [],
   currentSwipeIndex: 0,
+  selectedCategory: null,
 
   setAllPrompts: (prompts) => set({ allPrompts: prompts }),
+
+  setSelectedCategory: (category) => set({ selectedCategory: category, currentSwipeIndex: 0 }),
 
   addToSelected: (prompt) =>
     set((state) => ({
@@ -80,7 +86,7 @@ export const useStorylineStore = create<StorylineStore>((set, get) => ({
   exportToJSON: () => {
     const state = get();
     const exportData = {
-      storylineTitle: "My New Video Project",
+      storylineTitle: state.selectedCategory || "My New Video Project",
       exportDate: new Date().toISOString(),
       totalShots: state.storylineSequence.length,
       shots: state.storylineSequence.map((prompt, index) => ({
@@ -90,6 +96,7 @@ export const useStorylineStore = create<StorylineStore>((set, get) => ({
         imageRef: prompt.imageRef,
         mood: prompt.mood,
         shotType: prompt.shotType,
+        category: prompt.category,
         tags: prompt.tags,
       })),
     };
@@ -104,5 +111,11 @@ export const useStorylineStore = create<StorylineStore>((set, get) => ({
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
+  },
+
+  getFilteredPrompts: () => {
+    const state = get();
+    if (!state.selectedCategory) return state.allPrompts;
+    return state.allPrompts.filter((p) => p.category === state.selectedCategory);
   },
 }));

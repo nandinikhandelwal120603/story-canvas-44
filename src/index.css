@@ -8,41 +8,31 @@
 
 @layer base {
   :root {
-    /* Core Background - Near Black */
-    --background: 0 0% 4%;
-    --foreground: 0 0% 92%;
+    /* Core Background - Pure Black */
+    --background: 0 0% 0%;
+    --foreground: 0 0% 95%;
 
-    /* Glass Panels */
-    --glass-bg: 0 0% 8% / 0.6;
-    --glass-border: 0 0% 100% / 0.1;
-    
-    /* Aurora Gradients */
-    --aurora-purple-blue: linear-gradient(135deg, #6A11CB 0%, #2575FC 100%);
+    /* Aurora Gradients - NO PURPLE */
+    --aurora-cyan-blue: linear-gradient(135deg, #29ffc6 0%, #2575FC 100%);
+    --aurora-green-teal: linear-gradient(135deg, #a8ff78 0%, #78ffd6 100%);
     --aurora-orange-yellow: linear-gradient(135deg, #F09819 0%, #EDDE5D 100%);
-    --aurora-pink-purple: linear-gradient(135deg, #FF6FD8 0%, #3813C2 100%);
-    --aurora-cyan-blue: linear-gradient(135deg, #09F1F1 0%, #0061FF 100%);
-    
-    /* Mesh Gradient Colors */
-    --mesh-purple: 265 80% 45%;
-    --mesh-blue: 220 90% 55%;
-    --mesh-magenta: 320 85% 50%;
-    --mesh-indigo: 245 75% 50%;
+    --aurora-pink-fuchsia: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
 
     /* Card & Panel Backgrounds */
-    --card: 0 0% 8% / 0.6;
-    --card-foreground: 0 0% 92%;
+    --card: 0 0% 100% / 0.1;
+    --card-foreground: 0 0% 95%;
 
     /* Primary Interactive Elements */
-    --primary: 265 80% 60%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 180 100% 50%;
+    --primary-foreground: 0 0% 0%;
 
     /* Secondary Interactive Elements */
-    --secondary: 220 90% 55%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 160 100% 60%;
+    --secondary-foreground: 0 0% 0%;
 
     /* Accent Colors */
-    --accent: 320 85% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 30 100% 50%;
+    --accent-foreground: 0 0% 0%;
 
     /* Muted Elements */
     --muted: 0 0% 15%;
@@ -53,9 +43,9 @@
     --destructive-foreground: 0 0% 100%;
 
     /* Borders & Inputs */
-    --border: 0 0% 100% / 0.1;
-    --input: 0 0% 100% / 0.15;
-    --ring: 265 80% 60%;
+    --border: 0 0% 100% / 0.2;
+    --input: 0 0% 100% / 0.1;
+    --ring: 180 100% 50%;
 
     /* Success/Like Actions */
     --success: 142 76% 45%;
@@ -74,24 +64,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-['Inter',sans-serif];
-    background: 
-      radial-gradient(at 0% 0%, hsl(var(--mesh-purple)) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, hsl(var(--mesh-blue)) 0px, transparent 50%),
-      radial-gradient(at 100% 100%, hsl(var(--mesh-magenta)) 0px, transparent 50%),
-      radial-gradient(at 0% 100%, hsl(var(--mesh-indigo)) 0px, transparent 50%),
-      hsl(var(--background));
-    background-attachment: fixed;
-    animation: meshMove 20s ease-in-out infinite;
-  }
-
-  @keyframes meshMove {
-    0%, 100% { 
-      background-position: 0% 0%, 100% 0%, 100% 100%, 0% 100%; 
-    }
-    50% { 
-      background-position: 100% 0%, 0% 100%, 0% 0%, 100% 100%; 
-    }
+    @apply bg-black text-foreground font-['Inter',sans-serif];
   }
 
   h1 {
@@ -108,40 +81,53 @@
 }
 
 @layer components {
-  /* Glassmorphism Panel */
+  /* Glassmorphism Panel - FIXED */
   .glass-panel {
-    background: rgba(20, 20, 20, 0.6);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    @apply bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg;
   }
 
-  /* Aurora Pill Tag */
+  /* Aurora Pill Tag - VIBRANT GLOW */
   .aurora-pill {
-    @apply px-4 py-1.5 rounded-full text-xs font-medium text-white;
+    @apply px-4 py-2 rounded-full text-xs font-bold text-black;
     position: relative;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid rgba(255, 255, 255, 0.8);
     box-shadow: 
-      0 0 20px rgba(106, 17, 203, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      0 0 30px currentColor,
+      0 0 60px currentColor,
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
-  .aurora-pill-purple {
-    background: linear-gradient(135deg, #6A11CB 0%, #2575FC 100%);
+  .aurora-pill-cyan {
+    background: linear-gradient(135deg, #29ffc6 0%, #2575FC 100%);
+    box-shadow: 
+      0 0 30px #29ffc6,
+      0 0 60px #2575FC,
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  .aurora-pill-green {
+    background: linear-gradient(135deg, #a8ff78 0%, #78ffd6 100%);
+    box-shadow: 
+      0 0 30px #a8ff78,
+      0 0 60px #78ffd6,
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
   .aurora-pill-orange {
     background: linear-gradient(135deg, #F09819 0%, #EDDE5D 100%);
+    box-shadow: 
+      0 0 30px #F09819,
+      0 0 60px #EDDE5D,
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
   .aurora-pill-pink {
-    background: linear-gradient(135deg, #FF6FD8 0%, #3813C2 100%);
-  }
-
-  .aurora-pill-cyan {
-    background: linear-gradient(135deg, #09F1F1 0%, #0061FF 100%);
+    background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+    box-shadow: 
+      0 0 30px #ff7e5f,
+      0 0 60px #feb47b,
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
   /* Custom Scrollbar */
